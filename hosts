@@ -1,0 +1,5 @@
+[dhcpd]
+localhost
+
+[bind9]
+localhost

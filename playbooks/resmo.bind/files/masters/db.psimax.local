@@ -1,0 +1,17 @@
+;
+; BIND data file for local psimax domain
+;
+$TTL	604800
+@	IN	SOA	ns.psimax.local. root.psimax.local. (
+			      2		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@	IN	NS	ns.psimax.local.
+ns	IN	A	10.10.10.1
+ns1	IN	A	10.10.10.1
+matchbox	IN	A	10.10.10.1
+etcd-1	IN	A	10.10.10.101
+etcd-2	IN	A	10.10.10.102

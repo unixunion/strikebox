@@ -1,0 +1,62 @@
+---
+
+- name: Manage DHCP server
+  hosts: dhcpd 
+  connection: local
+  become: true
+  vars:
+    # DHCP
+    dhcp_global_default_lease_time: 28800 # 8hrs
+    dhcp_global_max_lease_time: 43200 # 12 hrs
+    dhcp_global_subnet_mask: 255.255.255.0
+    dhcp_global_broadcast_address: 10.10.10.255
+    dhcp_global_routers: 10.10.10.1
+    dhcp_global_domain_name: psimax.local
+    dhcp_global_domain_name_servers:
+      - 10.10.10.1
+    dhcp_global_bootp: allow
+    dhcp_global_booting: allow
+    dhcp_global_nex_server: 10.10.10.1
+    dhcp_global_filename: ipxe
+
+    dhcp_subnets:
+      - ip: 10.10.10.0
+        netmask: 255.255.255.0
+        domain_name_servers:
+          - 10.10.10.1
+        #range_begin: 10.10.10.100
+        #range_end: 10.10.10.200
+        pools:
+          - default_lease_time: 1800
+            max_lease_time: 3600
+            range_begin: 10.10.10.100
+            range_end: 10.10.10.200
+      - ip: 10.10.10.0
+        default_lease_time: 3600
+        max_lease_time: 7200
+        netmask: 255.255.255.0
+        domain_name_servers: 10.10.10.1
+        routers: 10.10.10.1
+        hosts:
+          - name: etcd-1
+            mac: '08:00:27:47:13:55'
+            ip: 10.10.10.101
+          - name: etcd-2
+            mac: '00:de:ad:be:ef:00'
+            ip: 10.10.10.10
+  roles:
+    - role: dhcp
+
+- name: Manage bind9 server
+  hosts: bind9
+  connection: local
+  become: true
+  vars:
+    bind_config_master_zones:
+      - name: psimax.local
+    bind_config_basepath: /etc/bind
+    bind_user: bind
+    bind_group: bind
+    bind_service_name: bind9
+  roles:
+    - role: resmo.bind
