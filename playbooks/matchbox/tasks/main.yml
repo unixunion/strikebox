@@ -40,3 +40,6 @@
 
 - name: systemd start matchbox
   systemd: name=matchbox-local state=started
+
+- name: downloading assets
+  script: /opt/{{ matchbox_archive_directory }}/scripts/get-coreos stable 1298.7.0 /var/lib/matchbox/assets

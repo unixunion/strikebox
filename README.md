@@ -17,3 +17,11 @@ Add mac addresses of machines which need fixed IP's in the dhcp vars in netboot.
 ## DNS
 
 Zone files are in resmo.bind/files/masters, then add the zone files to the var: bind_config_master_zones
+
+## Matchbox
+
+A simple playbook to install matchbox
+
+### Post Ansible
+
+Refer to generating TLS certificate in https://coreos.com/matchbox/docs/latest/deployment.html
