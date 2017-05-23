@@ -60,3 +60,10 @@
     bind_service_name: bind9
   roles:
     - role: resmo.bind
+
+- name: Matchbox
+  hosts: matchbox
+  connection: local
+  become: true
+  roles:
+    - role: matchbox

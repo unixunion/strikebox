@@ -1,0 +1,6 @@
+---
+- name: restart bind
+  service: name={{ matchbox_service_name }} state=restarted
+
+- name: reload bind
+  service: name={{ matchbox_service_name }} state=reloaded

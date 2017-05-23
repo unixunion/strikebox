@@ -1,0 +1,34 @@
+---
+- name: install dependencies
+  apt: pkg={{ item }} state=installed
+  with_items: "{{ matchbox_dep_pkgs }}"
+
+- name: matchbox group
+  group: name=matchbox state=present
+
+- name: matchbox user
+  user: name=matchbox state=present
+
+- name: matchbox install path
+  file: path="{{ matchbox_install_dir }}" state=directory owner="{{ matchbox_user }}" group="{{ matchbox_group }}" mode=0755
+
+- name: download matchbox
+  get_url: url="{{ matchbox_binary }}" dest=/tmp/matchbox.tar.gz
+
+- name: unpack matchbox
+  unarchive: src=/tmp/matchbox.tar.gz dest="{{ matchbox_install_dir }}"
+
+- name: install matchbox binary
+  copy: src=/opt/{{ matchbox_archive_directory }}/matchbox dest=/usr/local/bin mode=100755
+
+- name: copy systemd init script
+  copy: src=/opt/{{ matchbox_archive_directory }}/contrib/systemd/matchbox-local.service dest=/etc/systemd/system
+
+- name: systemd service
+  systemd: name=matchbox-local enabled=yes
+
+- name: systemd reload
+  systemd: daemon_reload=yes
+
+- name: systemd start matchbox
+  systemd: name=matchbox-local state=started
