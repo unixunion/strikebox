@@ -31,3 +31,7 @@ A simple playbook to install matchbox
 ### Post Ansible
 
 Refer to generating TLS certificate in https://coreos.com/matchbox/docs/latest/deployment.html
+
+## Terraform
+
+See matchbox/files/psimax for terraform examples. See Instructions: https://github.com/coreos/matchbox/tree/master/examples/terraform/etcd3-install
