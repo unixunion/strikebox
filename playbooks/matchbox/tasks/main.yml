@@ -25,33 +25,40 @@
   copy: src=/opt/{{ matchbox_archive_directory }}/matchbox dest=/usr/local/bin mode=100755
 
 - name: etc matchbox
-  file: path=/etc/matchbox state=directory
+  file: path=/etc/matchbox/tls state=directory
 
 - name: install generate-ca
   template:
     src: generate-ca.j2
-    dest: /etc/matchbox/generate-ca
+    dest: /etc/matchbox/tls/generate-ca
 
 - name: copy cert-gen
-  copy: src="{{ role_path }}/files/cert-gen" dest=/etc/matchbox/cert-gen mode="u+rwx,g-rwx,o-r"
+  copy: src="{{ role_path }}/files/cert-gen" dest=/etc/matchbox/tls/cert-gen mode="u+rwx,g-rwx,o-r"
 
 - name: copy openssl.conf
-  copy: src="{{ role_path }}/files/openssl.conf" dest=/etc/matchbox/openssl.conf mode="u+rw,g-rw,o-r"
+  copy: src="{{ role_path }}/files/openssl.conf" dest=/etc/matchbox/tls/openssl.conf mode="u+rw,g-rw,o-r"
 
 - name: generate ca
-  script: /etc/matchbox/generate-ca
+  script: /etc/matchbox/tls/generate-ca
   args:
-    creates: /etc/matchbox/server.key
-    creates: /etc/matchbox/server.crt
-    creates: /etc/matchbox/ca.crt
-    creates: /etc/matchbox/client.crt
-    creates: /etc/matchbox/client.key
+    creates: /etc/matchbox/tls/server.key
+    creates: /etc/matchbox/tls/server.crt
+    creates: /etc/matchbox/tls/ca.crt
+    creates: /etc/matchbox/tls/client.crt
+    creates: /etc/matchbox/tls/client.key
 
-- name: dot matchbox  
+- name: server cert install
+  copy: src="/etc/matchbox/tls/{{item}}" dest=/etc/matchbox
+  with_items:
+    - ca.crt
+    - server.crt
+    - server.key
+
+- name: client cert install
   file: path=~/.matchbox state=directory
 
 - name: copy client certs
-  copy: src="/etc/matchbox/{{item}}" dest=~/.matchbox/
+  copy: src="/etc/matchbox/tls/{{item}}" dest=~/.matchbox/
   with_items:
     - client.key
     - client.crt
@@ -78,10 +85,10 @@
   systemd: name=matchbox-local state=started
 
 - name: downloading assets
-  script: /opt/{{ matchbox_archive_directory }}/scripts/get-coreos stable 1298.7.0 /var/lib/matchbox/assets
+  script: /opt/{{ matchbox_archive_directory }}/scripts/get-coreos stable "{{matchbox_coreos_version}}" /var/lib/matchbox/assets
   args:
-    creates: /var/lib/matchbox/assets/coreos/1298.7.0/coreos_production_pxe.vmlinuz
-    creates: /var/lib/matchbox/assets/coreos/1298.7.0/coreos_production_image.bin.bz2
+    creates: "/var/lib/matchbox/assets/coreos/{{matchbox_coreos_version}}/coreos_production_pxe.vmlinuz"
+    creates: "/var/lib/matchbox/assets/coreos/{{matchbox_coreos_version}}/coreos_production_image.bin.bz2"
 
 - name: copy ipxe script
   template:
@@ -93,3 +100,25 @@
     state: restarted
     daemon_reload: yes
     name: tftpd-hpa
+
+- name: download terraform
+  get_url: url="{{ matchbox_terraform_binary }}" dest=/tmp/terraform.zip
+
+- name: unarchive terraform
+  unarchive:
+    src: /tmp/terraform.zip
+    dest: /usr/local/bin
+
+- name: cleanup terraform download
+  file: path=/tmp/terraform.zip state=absent
+
+- name: get terraform provider matchbox
+  get_url: url=https://github.com/coreos/terraform-provider-matchbox/releases/download/v0.1.2/terraform-provider-matchbox-v0.1.2-linux-amd64.tar.gz dest=/tmp/tpm.tar.gz
+
+- name: unarchive terraform provider matchbox
+  unarchive:
+    src: /tmp/tpm.tar.gz
+    dest: /tmp
+
+- name: install terraform provide matchbox
+  copy: src=/tmp/terraform-provider-matchbox-v0.1.2-linux-amd64/terraform-provider-matchbox dest=/usr/local/bin/terraform-provider-matchbox mode="u+rwx,g-rwx,o-r"

@@ -76,5 +76,7 @@
     matchbox_hostname: matchbox.psimax.local
     matchbox_ip: 10.10.10.1
     matchbox_chain_ipxe: http://10.10.10.1:8080/boot.ipxe
+    matchbox_coreos_version: 1353.7.0
+    matchbox_terraform_binary: https://releases.hashicorp.com/terraform/0.9.6/terraform_0.9.6_linux_amd64.zip
   roles:
     - role: matchbox
