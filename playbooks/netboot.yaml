@@ -78,5 +78,7 @@
     matchbox_chain_ipxe: http://10.10.10.1:8080/boot.ipxe
     matchbox_coreos_version: 1353.7.0
     matchbox_terraform_binary: https://releases.hashicorp.com/terraform/0.9.6/terraform_0.9.6_linux_amd64.zip
+    matchbox_terraform_plugin: https://github.com/coreos/terraform-provider-matchbox/releases/download/v0.1.2/terraform-provider-matchbox-v0.1.2-linux-amd64.tar.gz
+    matchbox_terraform_plugin_archive_directory: terraform-provider-matchbox-v0.1.2-linux-amd64
   roles:
     - role: matchbox

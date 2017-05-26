@@ -113,7 +113,7 @@
   file: path=/tmp/terraform.zip state=absent
 
 - name: get terraform provider matchbox
-  get_url: url=https://github.com/coreos/terraform-provider-matchbox/releases/download/v0.1.2/terraform-provider-matchbox-v0.1.2-linux-amd64.tar.gz dest=/tmp/tpm.tar.gz
+  get_url: url="{{matchbox_terraform_plugin}}" dest=/tmp/tpm.tar.gz
 
 - name: unarchive terraform provider matchbox
   unarchive:
@@ -121,4 +121,4 @@
     dest: /tmp
 
 - name: install terraform provide matchbox
-  copy: src=/tmp/terraform-provider-matchbox-v0.1.2-linux-amd64/terraform-provider-matchbox dest=/usr/local/bin/terraform-provider-matchbox mode="u+rwx,g-rwx,o-r"
+  copy: src="/tmp/{{matchbox_terraform_plugin_archive_directory}}/terraform-provider-matchbox" dest=/usr/local/bin/terraform-provider-matchbox mode="u+rwx,g-rwx,o-r"
