@@ -1,6 +1,12 @@
 # Strikebox
 
-Creates a matchbox server
+Creates a matchbox server out of a ubuntu 17.04 machine. 
+
+## Requirements for Virtualbox Testing
+
+matchbox host with a "internal" nw interface 10.10.10.1
+matchbox host with a bridged / natted interface to HOSTOS for internet access
+node on the same "internal" nw that the 10.10.10.1 interface is on.
 
 ## Status
 
