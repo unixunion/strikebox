@@ -24,25 +24,25 @@ resource "matchbox_group" "default" {
 
 // Create matcher groups for 3 machines
 
-resource "matchbox_group" "node1" {
-  name    = "node1"
+resource "matchbox_group" "etcd-1" {
+  name    = "etcd-1"
   profile = "${module.profiles.etcd3}"
 
   selector {
-    mac = "52:54:00:a1:9c:ae"
+    mac = "08:00:27:47:13:55"
     os  = "installed"
   }
 
   metadata {
-    domain_name          = "node1.example.com"
-    etcd_name            = "node1"
-    etcd_initial_cluster = "node1=http://node1.example.com:2380,node2=http://node2.example.com:2380,node3=http://node3.example.com:2380"
+    domain_name          = "etcd-1.psimax.local"
+    etcd_name            = "etcd-1"
+    etcd_initial_cluster = "etcd-1=http://etcd-1.psimax.local:2380,etcd-2=http://etcd-2.psimax.local:2380"
     ssh_authorized_key   = "${var.ssh_authorized_key}"
   }
 }
 
-resource "matchbox_group" "node2" {
-  name    = "node2"
+resource "matchbox_group" "etcd-2" {
+  name    = "etcd-2"
   profile = "${module.profiles.etcd3}"
 
   selector {
@@ -51,26 +51,9 @@ resource "matchbox_group" "node2" {
   }
 
   metadata {
-    domain_name          = "node2.example.com"
-    etcd_name            = "node2"
-    etcd_initial_cluster = "node1=http://node1.example.com:2380,node2=http://node2.example.com:2380,node3=http://node3.example.com:2380"
-    ssh_authorized_key   = "${var.ssh_authorized_key}"
-  }
-}
-
-resource "matchbox_group" "node3" {
-  name    = "node3"
-  profile = "${module.profiles.etcd3}"
-
-  selector {
-    mac = "52:54:00:c3:61:77"
-    os  = "installed"
-  }
-
-  metadata {
-    domain_name          = "node3.example.com"
-    etcd_name            = "node3"
-    etcd_initial_cluster = "node1=http://node1.example.com:2380,node2=http://node2.example.com:2380,node3=http://node3.example.com:2380"
+    domain_name          = "etcd-2.psimax.local"
+    etcd_name            = "etcd-2"
+    etcd_initial_cluster = "etcd-1=http://etcd-1.psimax.local:2380,etcd-2=http://etcd-2.psimax.local:2380"
     ssh_authorized_key   = "${var.ssh_authorized_key}"
   }
 }

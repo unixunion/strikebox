@@ -90,6 +90,9 @@
     creates: "/var/lib/matchbox/assets/coreos/{{matchbox_coreos_version}}/coreos_production_pxe.vmlinuz"
     creates: "/var/lib/matchbox/assets/coreos/{{matchbox_coreos_version}}/coreos_production_image.bin.bz2"
 
+- name: permissions on matchbox lib assets
+  file: path=/var/lib/matchbox owner=matchbox group=matchbox recurse=yes
+
 - name: copy ipxe script
   template:
     src: ipxe.j2
