@@ -18,8 +18,44 @@
 - name: unpack matchbox
   unarchive: src=/tmp/matchbox.tar.gz dest="{{ matchbox_install_dir }}"
 
+- name: delete tmp matchbox download
+  file: path=/tmp/matchbox.tar.gz state=absent
+
 - name: install matchbox binary
   copy: src=/opt/{{ matchbox_archive_directory }}/matchbox dest=/usr/local/bin mode=100755
+
+- name: etc matchbox
+  file: path=/etc/matchbox state=directory
+
+- name: install generate-ca
+  template:
+    src: generate-ca.j2
+    dest: /etc/matchbox/generate-ca
+
+- name: copy cert-gen
+  copy: src="{{ role_path }}/files/cert-gen" dest=/etc/matchbox/cert-gen mode="u+rwx,g-rwx,o-r"
+
+- name: copy openssl.conf
+  copy: src="{{ role_path }}/files/openssl.conf" dest=/etc/matchbox/openssl.conf mode="u+rw,g-rw,o-r"
+
+- name: generate ca
+  script: /etc/matchbox/generate-ca
+  args:
+    creates: /etc/matchbox/server.key
+    creates: /etc/matchbox/server.crt
+    creates: /etc/matchbox/ca.crt
+    creates: /etc/matchbox/client.crt
+    creates: /etc/matchbox/client.key
+
+- name: dot matchbox  
+  file: path=~/.matchbox state=directory
+
+- name: copy client certs
+  copy: src="/etc/matchbox/{{item}}" dest=~/.matchbox/
+  with_items:
+    - client.key
+    - client.crt
+    - ca.crt
 
 - name: copy systemd init script
   copy: src=/opt/{{ matchbox_archive_directory }}/contrib/systemd/matchbox-local.service dest=/etc/systemd/system
@@ -46,3 +82,14 @@
   args:
     creates: /var/lib/matchbox/assets/coreos/1298.7.0/coreos_production_pxe.vmlinuz
     creates: /var/lib/matchbox/assets/coreos/1298.7.0/coreos_production_image.bin.bz2
+
+- name: copy ipxe script
+  template:
+    src: ipxe.j2
+    dest: /var/lib/tftpboot/ipxe
+
+- name: restart tftpd
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: tftpd-hpa

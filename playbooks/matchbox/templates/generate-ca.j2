@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /etc/matchbox
+export SAN=DNS.1:{{matchbox_hostname}},IP.1:{{matchbox_ip}} && ./cert-gen

@@ -1,10 +1,12 @@
 ---
 
-matchbox_dep_pkgs: []
-matchbox_group: matchbox
-matchbox_user: matchbox
-matchbox_install_dir: /opt
-matchbox_version: v0.6.0
-matchbox_binary: https://github.com/coreos/matchbox/releases/download/v0.6.0/matchbox-v0.6.0-linux-amd64.tar.gz
-matchbox_archive_directory: matchbox-v0.6.0-linux-amd64
-matchbox_hostname: matchbox.psimax.local
+#matchbox_dep_pkgs: []
+#matchbox_group: matchbox
+#matchbox_user: matchbox
+#matchbox_install_dir: /opt
+#matchbox_version: v0.6.0
+#matchbox_binary: https://github.com/coreos/matchbox/releases/download/v0.6.0/matchbox-v0.6.0-linux-amd64.tar.gz
+#matchbox_archive_directory: matchbox-v0.6.0-linux-amd64
+#matchbox_hostname: matchbox.psimax.local
+#matchbox_ip: 10.10.10.1
+#matchbox_chain_ipxe: http://10.10.10.1:8080/boot.ipxe
