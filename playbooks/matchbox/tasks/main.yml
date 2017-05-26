@@ -43,3 +43,6 @@
 
 - name: downloading assets
   script: /opt/{{ matchbox_archive_directory }}/scripts/get-coreos stable 1298.7.0 /var/lib/matchbox/assets
+  args:
+    creates: /var/lib/matchbox/assets/coreos/1298.7.0/coreos_production_pxe.vmlinuz
+    creates: /var/lib/matchbox/assets/coreos/1298.7.0/coreos_production_image.bin.bz2
