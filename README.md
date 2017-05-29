@@ -35,3 +35,6 @@ Refer to generating TLS certificate in https://coreos.com/matchbox/docs/latest/d
 ## Terraform
 
 See matchbox/files/psimax for terraform examples. See Instructions: https://github.com/coreos/matchbox/tree/master/examples/terraform/etcd3-install
+
+But quick note, edit the variables to include SSH key, path to certs, 
+edit etcd3.tf, specify mac addresses of etcd cluster nodes

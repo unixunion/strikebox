@@ -41,9 +41,11 @@
           - name: etcd-1
             mac: '08:00:27:47:13:55'
             ip: 10.10.10.101
+            hostname: etcd-1
           - name: etcd-2
             mac: '00:de:ad:be:ef:00'
             ip: 10.10.10.10
+            hostname: etcd-2
   roles:
     - role: dhcp
 

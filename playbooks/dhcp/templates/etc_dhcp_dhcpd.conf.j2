@@ -117,6 +117,7 @@ subnet {{ subnet.ip }} netmask {{ subnet.netmask }} {
   host {{ host.name }} {
     hardware ethernet {{ host.mac }};
     fixed-address {{ host.ip }};
+    option host-name {{ host.hostname }};
   }
 {% endfor %}
 {% endif %}

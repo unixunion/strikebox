@@ -1,8 +1,8 @@
-#[dhcpd]
-#localhost
+[dhcpd]
+localhost
 
-#[bind9]
-#localhost
+[bind9]
+localhost
 
 [matchbox]
 localhost
