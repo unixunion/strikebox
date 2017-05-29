@@ -96,7 +96,5 @@ This renders /var/lib/matchbox/groups/etcd-[1,2].json
 ## NW Boot
 
 Download IPXE.ISO, because virtualbox ipxe is weak, boot your nodes using that ISO
+NOTE: be sure to set boot order to HDD first, else you will be in PXE loop
 
-## NW Boot
-
-Download IPXE.ISO, because virtualbox ipxe is weak, boot your nodes using that ISO
