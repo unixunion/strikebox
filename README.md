@@ -21,10 +21,9 @@ Very rough ugly-as-fuck impl.
 
 Some public playbooks have been "fixed" due to syntax issues, hence the temporary creation of a playbooks dir.
 
-# Spec out a ETCD Cluster
+# Plays, and spec out a ETCD Cluster
 
 Gather the MAC addresses from your NODE instances, and ammend configs as follows...
-
 
 ## DHCP
 
@@ -82,7 +81,7 @@ Certs end up in ~/.matchbox for client, and /etc/matchbox/ for server
 
 Refer to generating TLS certificate in https://coreos.com/matchbox/docs/latest/deployment.html
 
-## Terraform
+# Terraform
 
 See matchbox/files/psimax for terraform examples. See Instructions: https://github.com/coreos/matchbox/tree/master/examples/terraform/etcd3-install
 
