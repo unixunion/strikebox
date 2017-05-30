@@ -43,8 +43,8 @@
             ip: 10.10.10.101
             hostname: etcd-1
           - name: etcd-2
-            mac: '00:de:ad:be:ef:00'
-            ip: 10.10.10.10
+            mac: '08:00:27:50:F7:59'
+            ip: 10.10.10.102
             hostname: etcd-2
   roles:
     - role: dhcp
@@ -56,6 +56,10 @@
   vars:
     bind_config_master_zones:
       - name: psimax.local
+    bind_config_master_forwarders:
+      - 83.255.255.1
+      - 83.255.255.2
+    bind_config_recursion: yes
     bind_config_basepath: /etc/bind
     bind_user: bind
     bind_group: bind
